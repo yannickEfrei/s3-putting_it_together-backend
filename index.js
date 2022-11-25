@@ -6,20 +6,18 @@ var fileupload = require("express-fileupload");
 var amazonS3 = require('aws-sdk');
 const { Redshift } = require('aws-sdk');
 
-require("dotenv").config();
-
 var app = express();
 app.use(cors());
 app.use(fileupload());
 
 // Initializing the amazonS3 object.
 amazonS3.config.update({
-  accessKeyId: process.env.ACCESS_KEY_ID,
-  secretAccessKey: process.env.SECRET_ACCESS_KEY,
-  subregion: process.env.REGION
+  accessKeyId: "YOUR_ACCESS_KEY_ID",
+  secretAccessKey: "YOUR_SECRET",
+  subregion: "YOUR_REGION"
 });
 
-var s3Bucket = new amazonS3.S3({ params: { Bucket: process.env.S3_BUCKET } });
+var s3Bucket = new amazonS3.S3({ params: { Bucket: "YOUR_BUCKET_NAME" } });
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,9 +27,10 @@ app.post('/api/upload', function (req, res) {
 
     if (req.files) {
         var file = req.files.file,
-            filename = file.name;
+            filename = file.name,
+            username=req.body.username;
         var params = {
-            Key: "folder1/"+filename,
+            Key: `${username}/${filename}`,
             Body: file.data,
             ContentType: file.mimetype,
             ACL: 'public-read'
@@ -51,38 +50,6 @@ app.post('/api/upload', function (req, res) {
         console.log('no files')
     }
 });
-
-// list route
-app.get('/api/list', function (req, res) {
-    // list all files from the S3 bucket
-    s3Bucket.listObjects(function (err, data) {
-        if (err) {
-            console.log('Error occured while trying to retrieve files from AWS: ' + err);
-            res.json("Error occured while trying to retrieve files from AWS: " + err);
-        } else {
-            var files = [];
-            data.Contents.forEach(function (file) {
-                files.push({ key: file.Key });
-            });
-            console.log('files', files);
-            res.json(files);
-        }
-    });
-});
-
-app.post('/api/delete', (req,res) => {
-    if(!req.body || ! req.body.imgk)
-         res.status(301).send("missing image key");
-    s3Bucket.deleteObject({  Key: req.body.imgk }, (err, data ) => {
-        if (err) {
-            console.log(err, err.stack);
-            res.status(401).send("file not found")
-            return
-        }
-        console.log('data',data);
-        res.status(200).send("deletion complete")
-    })
-})
 
 // app listen
 app.listen(8080, function () {
