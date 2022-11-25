@@ -1,0 +1,33 @@
+{
+  "Yannick": {
+    "EC2": {
+      "Frontend": {
+        "name": "yannick_front_together",
+        "url": "aws.yacadmander.com",
+        "ip": "54.164.9.160",
+        "port": 80,
+        "application-port": 3000,
+        "github": "https://github.com/yannickEfrei/s3-putting_it_together-frontend.git"
+      },
+      "Backend": {
+        "name": "yannick_back_together",
+        "ip": "34.227.191.34",
+        "port": 80,
+        "application-port": 8085,
+        "github": "https://github.com/yannickEfrei/s3-putting_it_together-backend.git"
+      }
+    },
+    "S3": {
+      "name": "yannick-dev-bucket",
+      "url": "https://s3.console.aws.amazon.com/s3/buckets/yannick-dev-bucket?region=us-east-1&tab=objects"
+    },
+    "DynamoDB": {
+      "name": "yannick_together_db",
+      "url": "https://us-east-1.console.aws.amazon.com/dynamodbv2/home?region=us-east-1#table?name=yannick_together_db"
+    },
+    "Lambda": {
+      "name": "yannick_lambda_together",
+      "url": "https://us-east-1.console.aws.amazon.com/lambda/home?region=us-east-1#/functions/yannick_lambda_together"
+    }
+  }
+}
