@@ -9,7 +9,7 @@ const { uploadToBucket, test } = require("./controllers/bucketController");
 const app = express();
 const frontUrl = "http://127.0.0.1:3000";
 const PORT_APP = 8085;
-app.use(cors(frontUrl));
+app.use(cors());
 app.use(fileupload());
 
 app.use(bodyParser.json());
